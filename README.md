@@ -1,5 +1,10 @@
 # Applying-Machine-Learning-for-Chili-Pepper-Phenotyping-and-Feature-Extraction
 
+``` shell
+# Install my requirement
+pip install -r requirements.txt
+```
+
 Using model [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)
 
 ## Installation
@@ -7,11 +12,16 @@ Using model [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for rea
 ``` shell
 # Clone github yolov7 to maim
 git clone https://github.com/augmentedstartups/yolov7.git
+cd yolov7
 
 # Install requirement of yolov7
 pip install -r requirements.txt
-pip install -r my_requirements.txt
 ```
+Move file object.py to utils and my_detect.py to main
+- yolov7
+  - my_detect.py
+  - utils
+    - object.py 
 
 ## Detect
 ``` shell
