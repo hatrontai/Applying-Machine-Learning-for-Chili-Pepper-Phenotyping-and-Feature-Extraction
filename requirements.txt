@@ -1,1 +1,6 @@
+pandas
+cv2
+plt
+pyzbar
+math
 
