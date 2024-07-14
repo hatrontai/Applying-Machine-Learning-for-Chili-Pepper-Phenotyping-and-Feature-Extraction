@@ -77,11 +77,11 @@ def detect(save_img=False):
 
     t0 = time.time()
     for path, img, im0s, vid_cap in dataset:
-        id = 1
         print(path)
         # threshold for cut qr_code
         _, cut = qr_code(path) 
         center_seeds = []
+        center_chilis = []
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -141,6 +141,13 @@ def detect(save_img=False):
                     if int(cls.item()) == 0:
                         center_seed = [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2]
                         center_seeds.append(center_seed)
+                    else:
+                        if bbox[1] >= cut:
+                            center_chili = [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2]
+                            center_chilis.append(center_chili)
+
+                center_chilis = sorted(center_chilis, key=lambda x: sum(x))
+                print(center_chilis)
 
                 for *xyxy, conf, cls in reversed(det):
                     bbox = []
@@ -154,11 +161,11 @@ def detect(save_img=False):
                         continue
 
                     if int(cls.item()) == 1:
+                        indices  = [index for index, center in enumerate(center_chilis) if center[0]== (bbox[0]+bbox[2])/2 and center[1]== (bbox[1]+bbox[3])/2]
+                        id = indices[0] + 1
                         chili = Fruit(source= p, id= id, bbox= bbox)
                         chili.number_seeds = cal_number_seeds(chili.bbox, center_seeds)
                         chilis.append(chili)
-                        
-                        id = id + 1
 
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
