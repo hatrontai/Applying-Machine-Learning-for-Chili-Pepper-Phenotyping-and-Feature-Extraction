@@ -84,6 +84,7 @@ def qr_code(source):
         
         except Exception as e:
             print("Error:", e)
+            print(source)
 
             return None
 
@@ -117,11 +118,16 @@ class Fruit(object):
 
     def get_img(self):
         img = cv2.imread(self.source)
+        if img is None:
+            print("image is not define")
+            return 0
+        
         img_RGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         bbox = self.bbox
-        fruit = img_RGB[int(bbox[1]-50):int(bbox[3]+50), int(bbox[0]-50):int(bbox[2]+50)]
+        fruit = img_RGB[int(max((bbox[1]-50), 0)):int(min(bbox[3]+50, img.shape[0])), int(max((bbox[0]-50), 0)):int(min(bbox[2]+50, img.shape[1]))]
         # cv2.imshow("1", fruit)
         # cv2.waitKey(0)
+        
         return fruit
     
     def get_mask(self, use_closing = True, use_contour = True):
@@ -262,7 +268,7 @@ class Fruit(object):
         appox_contour = cv2.approxPolyDP(contour_line, ep*length_L1, True)
         length_L2 = cv2.arcLength(appox_contour, True)
         smoothness = length_L2/length_L1
-        wrinkle = round(smoothness, 5)
+        wrinkle = round(1 - smoothness, 5)
 
 
         # wrinkle = 0
