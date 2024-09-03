@@ -27,4 +27,4 @@ Move file object.py to utils and my_detect.py to main
 ``` shell
 python my_detect.py --weights weight/best.pt --source inference/images/chili.jpg --save-txt --save-conf --save-csv --save-img-para
 ```
-Get weight [best.pt]([https://drive.google.com/file/d/1C4oFnHLHlNmvqJ8CpvWG1Wty6ygapeib/view?usp=sharing](https://drive.google.com/file/d/1kDIWM99wJdeHkKppbv47rOuQnX892l_4/view?usp=sharing))
+Get weight [best.pt](https://drive.google.com/file/d/1kDIWM99wJdeHkKppbv47rOuQnX892l_4/view?usp=sharing)
